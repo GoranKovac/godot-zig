@@ -28,7 +28,7 @@ pub fn build(b: *std.Build) !void {
         .link_libc = true,
     });
     binding_generator.step.dependOn(gdextension.step);
-    binding_generator.addIncludePath(gdextension.iface_headers.dirname());
+    binding_generator.addIncludePath(b.path("zig-out/bindgen/"));
     binding_generator_step.dependOn(&binding_generator.step);
     b.installArtifact(binding_generator);
 
@@ -44,9 +44,9 @@ pub fn build(b: *std.Build) !void {
     });
 
     godot_module.addOptions("build_options", build_options);
-    godot_module.addIncludePath(bindgen.output_path);
+    //godot_module.addIncludePath(bindgen.output_path);
     godot_module.addIncludePath(b.path("zig-out/bindgen/"));
-    godot_module.addIncludePath(gdextension.iface_headers.dirname());
+    //godot_module.addIncludePath(gdextension.iface_headers.dirname());
 
     // const godot_core_module = b.addModule("GodotCore", .{
     //     .root_source_file = bindgen.godot_core_path,
