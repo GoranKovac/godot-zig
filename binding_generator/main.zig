@@ -370,10 +370,10 @@ fn generateProc(code_builder: anytype, fn_node: anytype, allocator: mem.Allocato
         var buf: [256]u8 = undefined;
         const atypes = getArgumentsTypes(fn_node, &buf);
         if (atypes.len > 0) {
-            const temp_atypes_func_name = try temp_buf.bufPrint("{s}_from_{s}", .{func_name, atypes});
+            const temp_atypes_func_name = try temp_buf.bufPrint("{s}_from_{s}", .{ func_name, atypes });
             const atypes_func_name = getZigFuncName(allocator, temp_atypes_func_name);
 
-            try code_builder.print(0, "pub fn {s}(", .{ atypes_func_name });
+            try code_builder.print(0, "pub fn {s}(", .{atypes_func_name});
         } else {
             try code_builder.print(0, "pub fn {s}(", .{zig_func_name});
         }
@@ -716,7 +716,7 @@ fn generateMethod(class_node: anytype, code_builder: anytype, allocator: mem.All
             const temp_virtual_inherits_func_name = try std.fmt.allocPrint(allocator, "get_virtual_{s}", .{class_node.inherits});
             const virtual_inherits_func_name = getZigFuncName(allocator, temp_virtual_inherits_func_name);
 
-            try code_builder.printLine(1, "return Godot.{s}.{s}(T, p_userdata, p_name);", .{class_node.inherits, virtual_inherits_func_name});
+            try code_builder.printLine(1, "return Godot.{s}.{s}(T, p_userdata, p_name);", .{ class_node.inherits, virtual_inherits_func_name });
         } else {
             try code_builder.writeLine(1, "_ = T;");
             try code_builder.writeLine(1, "_ = p_userdata;");
@@ -805,7 +805,7 @@ fn addImports(class_name: []const u8, code_builder: anytype, allocator: std.mem.
     try imported_class_map.put("String", true);
     try imported_class_map.put("StringName", true);
 
-    try imp_builder.writeLine(0, "const Godot = @import(\"godot\");");
+    try imp_builder.writeLine(0, "const Godot = @import(\"Godot.zig\");");
     try imp_builder.writeLine(0, "const C = Godot.C;");
 
     if (!mem.eql(u8, class_name, "String")) {
@@ -977,7 +977,7 @@ fn generateGodotCore(allocator: std.mem.Allocator) !void {
     defer loader_builder.deinit();
 
     try code_builder.writeLine(0, "const std = @import(\"std\");");
-    try code_builder.writeLine(0, "const Godot = @import(\"godot\");");
+    try code_builder.writeLine(0, "const Godot = @import(\"Godot.zig\");");
     try code_builder.writeLine(0, "pub const UtilityFunctions = @import(\"UtilityFunctions.zig\");");
     try code_builder.writeLine(0, "pub const C = @cImport({");
     try code_builder.writeLine(1, "@cInclude(\"gdextension_interface.h\");");

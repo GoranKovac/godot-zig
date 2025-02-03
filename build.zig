@@ -38,28 +38,38 @@ pub fn build(b: *std.Build) !void {
     const bindgen = build_bindgen(b, gdextension.iface_headers.dirname(), binding_generator, precision, arch);
 
     const godot_module = b.addModule("godot", .{
-        .root_source_file = b.path(b.pathJoin(&.{ "src", "api", "Godot.zig" })),
+        .root_source_file = b.path("zig-out/bindgen/Godot.zig"),
         .target = target,
         .optimize = optimize,
     });
+
     godot_module.addOptions("build_options", build_options);
     godot_module.addIncludePath(bindgen.output_path);
+    godot_module.addIncludePath(b.path("zig-out/bindgen/"));
     godot_module.addIncludePath(gdextension.iface_headers.dirname());
 
-    const godot_core_module = b.addModule("GodotCore", .{
-        .root_source_file = bindgen.godot_core_path,
-        .target = target,
-        .optimize = optimize,
-    });
-    godot_core_module.addIncludePath(gdextension.iface_headers.dirname());
-    godot_core_module.addImport("godot", godot_module);
+    // const godot_core_module = b.addModule("GodotCore", .{
+    //     .root_source_file = bindgen.godot_core_path,
+    //     .target = target,
+    //     .optimize = optimize,
+    // });
+    // godot_core_module.addIncludePath(gdextension.iface_headers.dirname());
+    // godot_core_module.addImport("godot", godot_module);
 
-    godot_module.addImport("GodotCore", godot_core_module);
+    // godot_module.addImport("GodotCore", godot_core_module);
+
+    b.getInstallStep().dependOn(bindgen.step);
+
+    b.installDirectory(.{
+        .source_dir = b.path("src/api/"),
+        .install_dir = .{ .prefix = {} },
+        .install_subdir = BINDGEN_INSTALL_RELPATH,
+    });
 }
 
 const BindgenOutput = struct {
     step: *std.Build.Step,
-    godot_core_path: std.Build.LazyPath,
+    //godot_core_path: std.Build.LazyPath,
     output_path: std.Build.LazyPath,
 };
 
@@ -90,7 +100,7 @@ fn build_bindgen(
     return .{
         .step = bind_step,
         .output_path = output_lazypath,
-        .godot_core_path = output_lazypath.path(b, "GodotCore.zig"),
+        //.godot_core_path = output_lazypath.path(b, "GodotCore.zig"),
     };
 }
 

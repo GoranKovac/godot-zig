@@ -1,7 +1,7 @@
 const std = @import("std");
 pub const Variant = @import("Variant.zig");
 pub usingnamespace @import("Vector.zig");
-const Core = @import("GodotCore"); //.GodotCore;
+const Core = @import("GodotCore.zig"); //.GodotCore;
 const StringName = Core.StringName;
 const String = Core.String;
 pub usingnamespace Core;

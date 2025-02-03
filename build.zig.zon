@@ -13,9 +13,10 @@
         "LICENSE",
         "README.md",
         "binding_generator",
-        "src/api",
+        //"src/api",
         "build.zig",
         "build.zig.zon",
         "vendor",
+        "zig-out/bindgen",
     },
 }
