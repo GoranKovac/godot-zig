@@ -3,11 +3,11 @@
     .version = "0.0.0-dev",
     .dependencies = .{
         .case = .{
-            .url = "git+https://github.com/travisstaloch/case#698a01886de891c03434f34e6bca95546026eb0f",
-            .hash = "12207c971fe9b4d6430503d3a4d00c6296f52b52da47c11cb8e37706e86c3ffee49e",
+            .url = "git+https://github.com/travisstaloch/case#610caade88ca54d2745f115114b08e73e2c6fe02",
+            .hash = "1220bf4730ad82155505576a53307c01a686232bcad965b3dfc6c27af9019b23b567",
         },
     },
-    .minimum_zig_version = "0.13.0",
+    .minimum_zig_version = "0.14.0-dev.2577+271452d22",
 
     .paths = .{
         "LICENSE",

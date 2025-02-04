@@ -14,7 +14,6 @@ const Examples = [_]struct { name: [:0]const u8, T: type }{
 const Self = @This();
 pub usingnamespace Godot.Node;
 base: Godot.Node,
-
 panel: Godot.PanelContainer,
 example_node: ?Godot.Node = null,
 
